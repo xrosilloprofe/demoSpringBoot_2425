@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +35,18 @@ public class ArticuloRepository {
     }
 
     public Articulo getbyID(int id) throws SQLException {
-        return null;
+        Articulo articulo = null;
+        String query = "SELECT * FROM Articulo where id = ?";
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            articulo = new Articulo(resultSet.getInt(1), resultSet.getString(2),
+                    resultSet.getInt(3), resultSet.getDouble(4), resultSet.getInt(5));
+        }
+
+        return articulo;
     }
 
     public Articulo deleteArticulo(int id) throws SQLException {
