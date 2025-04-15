@@ -20,24 +20,37 @@ public class ArticuloRepository {
     @Qualifier("mysqldatasource")
     private DataSource dataSource;
 
-    public List<Articulo> getAll() throws SQLException{
+    public List<Articulo> getAll() throws SQLException {
         List<Articulo> articulos = new ArrayList<>();
         String query = "SELECT * FROM Articulo";
 
-        try(Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query)){
-            while(resultSet.next()){
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
                 //Articulo articulo = new Articulo(resultSet.getInt(1),...)
-                articulos.add(Articulo.builder().id(resultSet.getInt(1))
-                                .descArticulo(resultSet.getString(2))
-                                .existencias(resultSet.getInt(3))
-                                .pvp(resultSet.getDouble(4))
-                                .categoriaId(resultSet.getInt(5)).build()
-                        );
+                articulos.add(new Articulo(resultSet.getInt(1), resultSet.getString(2),
+                        resultSet.getInt(3), resultSet.getDouble(4), resultSet.getInt(5))
+                );
             }
         }
         return articulos;
+    }
+
+    public Articulo getbyID(int id) throws SQLException {
+        return null;
+    }
+
+    public Articulo deleteArticulo(int id) throws SQLException {
+        return null;
+    }
+
+    public Articulo addArticulo(Articulo articulo) throws SQLException {
+        return null;
+    }
+
+    public Articulo updateArticulo(Articulo articulo) throws SQLException {
+        return null;
     }
 
 }

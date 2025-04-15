@@ -18,4 +18,17 @@ public class ArticuloService {
         return articuloRepository.getAll();
     }
 
+    public Articulo getbyID(int id) throws SQLException {
+        return articuloRepository.getbyID(id);
+    }
+    public Articulo deleteArticulo(int id) throws SQLException{
+        return articuloRepository.deleteArticulo(id);
+    }
+    public Articulo addArticulo(Articulo articulo) throws SQLException{
+        return articuloRepository.addArticulo(articulo);
+    }
+    public Articulo updateArticulo(Articulo articulo) throws SQLException{
+        return articuloRepository.updateArticulo(articulo);
+    }
+
 }
