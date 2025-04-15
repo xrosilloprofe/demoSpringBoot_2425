@@ -50,15 +50,50 @@ public class ArticuloRepository {
     }
 
     public Articulo deleteArticulo(int id) throws SQLException {
-        return null;
+        Articulo articulo = null;
+        String query = "DELETE FROM Articulo where id = ?";
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            articulo = getbyID(id);
+            if(articulo!=null){
+                preparedStatement.setInt(1,id);
+                preparedStatement.executeUpdate();
+            }
+        }
+        return articulo;
     }
 
     public Articulo addArticulo(Articulo articulo) throws SQLException {
-        return null;
+        String query = "INSERT INTO Articulo(descArticulo, existencias, pvp, categoriaId) VALUES (?,?,?,?)";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+
+            preparedStatement.setString(1, articulo.getDescArticulo());
+            preparedStatement.setInt(2,articulo.getExistencias());
+            preparedStatement.setDouble(3,articulo.getPvp());
+            preparedStatement.setInt(4,articulo.getCategoriaId());
+            preparedStatement.executeUpdate();
+
+        }
+        return articulo;
     }
 
     public Articulo updateArticulo(Articulo articulo) throws SQLException {
-        return null;
+        String query = "UPDATE Articulo set descArticulo = ?, existencias = ?, pvp = ?, categoriaId = ? WHERE id = ?";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+
+            preparedStatement.setString(1, articulo.getDescArticulo());
+            preparedStatement.setInt(2,articulo.getExistencias());
+            preparedStatement.setDouble(3,articulo.getPvp());
+            preparedStatement.setInt(4,articulo.getCategoriaId());
+            preparedStatement.setInt(5,articulo.getId());
+            preparedStatement.executeUpdate();
+
+        }
+        return articulo;
     }
 
 }
